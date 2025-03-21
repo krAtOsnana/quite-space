@@ -5,11 +5,12 @@ import { getDbUserId } from "./user.action"
 
 
 export  async function getNotifications() {
+  
+  try {
     
     const userId = await getDbUserId();
-    if(!userId) return;
+    if(!userId) return[];
 
-    try {
         const notifications = await prisma.notification.findMany({
             where:{
                 userId
@@ -43,6 +44,7 @@ export  async function getNotifications() {
               },
         })
         return notifications;
+
     } catch (error) {
         console.error("Error fetching notifications:", error);
         throw new Error("Failed to fetch notifications");
